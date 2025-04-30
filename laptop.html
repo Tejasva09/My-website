@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laptop</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Popular Laptop</h1>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="product.html">Products</a>
+            <a href="contact.html">Contact</a>
+            <a href="cart.html" class="cart-link">🛒 Cart (<span id="cart-count">0</span>)</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="product-container" style="display: flex; gap: 20px; flex-wrap: nowrap; overflow-x: auto;">
+
+            <div class="product-card">
+                <img src="https://m.media-amazon.com/images/I/71VRrc7V-PL._SX679_.jpg" alt="ASUS Vivo Book">
+                <h3>ASUS Vivo Book</h3>
+                <p>Rating: ★★★★☆</p>
+                <p class="price">$678</p>
+                <button class="cart-btn" onclick="addToCart('ASUS Vivo Book', 678)">Add to Cart</button>
+            </div>
+                <div class="product-card" style="display: inline-block;">
+                <img src="https://m.media-amazon.com/images/I/615mOIvin4L._SX679_.jpg" alt="Dell">
+                <h3>Dell XPS 9640</h3>
+                <p>Rating: ★★★★★</p>
+                <p class="price">$780</p>
+                <button class="cart-btn" onclick="addToCart('Dell XPS 9640', 780)">Add to Cart</button>
+            </div>
+            <div class="product-card">
+                <img src="https://m.media-amazon.com/images/I/71M6Hk2ZDbL._SX679_.jpg" alt="Victus">
+                <h3>HP Victus</h3>
+                <p>Rating: ★★★★★</p>
+                <p class="price">$980</p>
+                <button class="cart-btn" onclick="addToCart('HP Victus', 980)">Add to Cart</button>
+            </div>
+            <div class="product-card">
+                <img src="https://m.media-amazon.com/images/I/71vDKqPC-fL._SX679_.jpg">
+                <h3>HP Pavilion</h3>
+                <p>Rating: ★★★★☆</p>
+                <p class="price">$1090</p>
+                <button class="cart-btn" onclick="addToCart('HP Pavilion', 1090)">Add to Cart</button>
+            </div>
+            <div class="product-card">
+                <img src="https://m.media-amazon.com/images/I/41QkRQWp51L._SX300_SY300_QL70_FMwebp_.jpg" alt="OMEN">
+                <h3>HP OMEN</h3>
+                <p>Rating: ★★★★★</p>
+                <p class="price">$1690</p>
+                <button class="cart-btn" onclick="addToCart('HP OMEN', 1690)">Add to Cart</button>
+            </div>
+        </section>
+    </main>
+    <script>
+        // On page load, update cart count
+        document.addEventListener('DOMContentLoaded', () => {
+          const count = localStorage.getItem('cartCount') || 0;
+          document.getElementById('cart-count').innerText = count;
+        });
+      
+        // Add to cart function
+        function addToCart(productName, price) {
+          let count = parseInt(localStorage.getItem('cartCount')) || 0;
+          count++;
+          localStorage.setItem('cartCount', count);
+          document.getElementById('cart-count').innerText = count;
+      
+          let cart = JSON.parse(localStorage.getItem('cartItems')) || [];
+          cart.push({ name: productName, price: price });
+          localStorage.setItem('cartItems', JSON.stringify(cart));
+      
+          alert(`${productName} added to cart!`);
+        }
+      </script>
+</body>
+</html>

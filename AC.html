@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laptop</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Air Conditioner</h1>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="product.html">Products</a>
+            <a href="contact.html">Contact</a>
+            <a href="cart.html" class="cart-link">🛒 Cart (<span id="cart-count">0</span>)</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="product-container">
+            <div class="product-card">
+                <img src="https://m.media-amazon.com/images/I/61ywQmMEltL._SX679_.jpg" alt="AC">
+                <h3>LG 1.5 Ton 5 Star DUAL Inverter Split AC</h3>
+                <p>Rating: ★★★★☆</p>
+                <p class="price">$199</p>
+                <button class="cart-btn" onclick="addToCart('LG 1.5 Ton 5 Star DUAL Inverter Split AC', 199)">Add to Cart</button>
+            </div>
+            <div class="product-card" style="display: inline-block;">
+                <img src="https://m.media-amazon.com/images/I/51hjt2Tw54L._SX679_.jpg" alt="AC">
+                <h3>Voltas 1.5 ton 3 Star, Inverter Split AC </h3>
+                <p>Rating: ★★★★★</p>
+                <p class="price">$345</p>
+                <button class="cart-btn" onclick="addToCart('Voltas 1.5 ton 3 Star, Inverter Split AC', 345)">Add to Cart</button>
+            </div>
+            <div class="product-card">
+                <img src="https://m.media-amazon.com/images/I/617aVmPTeIL._SX679_.jpg" alt="AC">
+                <h3>Lloyd 1.5 Ton 3 Star Inverter Split AC</h3>
+                <p>Rating: ★★★★★</p>
+                <p class="price">$359</p>
+                <button class="cart-btn" onclick="addToCart('Lloyd 1.5 Ton 3 Star Inverter Split AC', 359)">Add to Cart</button>
+            </div>
+            <div class="product-card">
+                <img src="https://m.media-amazon.com/images/I/31zvpYwjPpL._SY445_SX342_QL70_FMwebp_.jpg">
+                <h3>Blue Star 1.5 Ton 3 Star, 60 Months Warranty, Wi-Fi Smart Inverter Split AC</h3>
+                <p>Rating: ★★★★☆</p>
+                <p class="price">$200</p>
+                <button class="cart-btn" onclick="addToCart('Blue Star 1.5 Ton 3 Star, 60 Months Warranty, Wi-Fi Smart Inverter Split AC', 200)">Add to Cart</button>
+            </div>
+            <div class="product-card">
+                <img src="https://m.media-amazon.com/images/I/212mplpObPL.jpg" alt="AC">
+                <h3>ONEIRIC 1.5 Ton 3 Star Inverter Split AC</h3>
+                <p>Rating: ★★★★★</p>
+                <p class="price">$389</p>
+                <button class="cart-btn" onclick="addToCart('ONEIRIC 1.5 Ton 3 Star Inverter Split AC', 389)">Add to Cart</button>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // On page load, update cart count
+        document.addEventListener('DOMContentLoaded', () => {
+          const count = localStorage.getItem('cartCount') || 0;
+          document.getElementById('cart-count').innerText = count;
+        });
+      
+        // Add to cart function
+        function addToCart(productName, price) {
+          let count = parseInt(localStorage.getItem('cartCount')) || 0;
+          count++;
+          localStorage.setItem('cartCount', count);
+          document.getElementById('cart-count').innerText = count;
+      
+          let cart = JSON.parse(localStorage.getItem('cartItems')) || [];
+          cart.push({ name: productName, price: price });
+          localStorage.setItem('cartItems', JSON.stringify(cart));
+      
+          alert(`${productName} added to cart!`); // Corrected the alert syntax
+        }
+    </script>
+</body>
+</html>

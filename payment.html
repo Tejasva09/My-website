@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Payment Gateway - Shubh Electronics</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background-color: #f4f4f4;
+    }
+
+    header {
+      background-color: #333;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 30px auto;
+      padding: 20px;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      margin-top: 0;
+    }
+
+    .bill-summary {
+      background-color: #f9f9f9;
+      padding: 15px;
+      border-radius: 6px;
+      margin-bottom: 20px;
+    }
+
+    .cart-items {
+      list-style: none;
+      padding: 0;
+    }
+
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .cart-item span {
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    .total {
+      font-size: 18px;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    textarea,
+    select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      box-sizing: border-box;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #333;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    #back-button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #555;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    #success-message {
+      margin-top: 20px;
+      color: green;
+      font-weight: bold;
+    }
+
+    #qr-code {
+      margin-top: 15px;
+      display: none;
+      text-align: center;
+    }
+
+    #qr-code img {
+      width: 150px;
+      height: 150px;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>Shubh Electronics</h1>
+  </header>
+
+  <main class="container">
+    <h2>Bill Summary</h2>
+    <div class="bill-summary">
+      <ul class="cart-items" id="cart-items"></ul>
+      <div class="total" id="price-breakdown">
+        Subtotal: ₹0 <br>
+        GST (18%): ₹0 <br>
+        Delivery Charges: ₹20 <br>
+        <strong>Total Payable: ₹0</strong>
+      </div>
+
+      <!-- Currency Toggle -->
+      <div style="margin-top: 10px;">
+        <label for="currency-select">Select Currency: </label>
+        <select id="currency-select" onchange="renderCart()">
+          <option value="inr">INR</option>
+          <option value="usd">USD</option>
+        </select>
+      </div>
+    </div>
+
+    <h2>Delivery Address</h2>
+    <form id="payment-form">
+      <label for="name">Full Name</label>
+      <input type="text" id="name" placeholder="Enter your full name" required>
+
+      <label for="email">Email</label>
+      <input type="email" id="email" placeholder="Enter your email" required>
+
+      <label for="address">Address</label>
+      <textarea id="address" rows="3" placeholder="Enter your full address" required></textarea>
+
+      <label for="city">City</label>
+      <input type="text" id="city" placeholder="City" required>
+
+      <label for="pincode">Pincode</label>
+      <input type="text" id="pincode" placeholder="Pincode" required>
+
+      <label for="payment-method">Payment Method</label>
+      <select id="payment-method" required>
+        <option value="card">Credit/Debit Card</option>
+        <option value="upi">UPI</option>
+        <option value="cod">Cash on Delivery</option>
+      </select>
+
+      <div id="card-details">
+        <label for="card-number">Card Number</label>
+        <input type="text" id="card-number" placeholder="Enter your card number">
+      </div>
+
+      <div id="upi-details" style="display: none;">
+        <label for="upi-id">UPI ID</label>
+        <input type="text" id="upi-id" placeholder="e.g. name@upi">
+
+        <div id="qr-code">
+          <p>Scan to Pay</p>
+          <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=upi://pay?pa=name@upi&pn=ShubhElectronics"
+            alt="QR Code">
+        </div>
+      </div>
+
+      <button type="submit">Pay Now</button>
+    </form>
+
+    <button id="back-button" onclick="window.location.href='cart.html'">Back to Cart</button>
+
+    <div id="success-message" style="display:none;">
+      <p>✅ Payment Successful! Thank you for shopping with us.</p>
+    </div>
+  </main>
+
+  <script>
+    const GST_RATE = 0.18;
+    const DELIVERY_CHARGE = 20;
+    const EXCHANGE_RATE = 83;
+
+    document.addEventListener("DOMContentLoaded", function () {
+      const savedCurrency = localStorage.getItem("selectedCurrency") || "inr";
+      document.getElementById("currency-select").value = savedCurrency;
+      renderCart();
+    });
+
+    function renderCart() {
+      const cart = JSON.parse(localStorage.getItem("cartItems")) || [];
+      const cartItemsContainer = document.getElementById("cart-items");
+      const currency = document.getElementById("currency-select").value;
+      localStorage.setItem("selectedCurrency", currency);
+
+      cartItemsContainer.innerHTML = "";
+      let subtotalUsd = 0;
+
+      cart.forEach(item => {
+        subtotalUsd += parseFloat(item.price);
+        const li = document.createElement("li");
+        li.className = "cart-item";
+
+        const priceDisplay = currency === "inr"
+          ? `₹${(item.price * EXCHANGE_RATE).toFixed(2)}`
+          : `$${item.price.toFixed(2)}`;
+
+        li.innerHTML = `
+          <span>${item.name}</span>
+          <span>${priceDisplay}</span>
+        `;
+        cartItemsContainer.appendChild(li);
+      });
+
+      const subtotalInr = subtotalUsd * EXCHANGE_RATE;
+      const gstInr = subtotalInr * GST_RATE;
+      const totalInr = subtotalInr + gstInr + DELIVERY_CHARGE;
+
+      if (currency === "usd") {
+        const gstUsd = subtotalUsd * GST_RATE;
+        const deliveryUsd = DELIVERY_CHARGE / EXCHANGE_RATE;
+        const totalUsd = subtotalUsd + gstUsd + deliveryUsd;
+
+        document.getElementById("price-breakdown").innerHTML = `
+          Subtotal: $${subtotalUsd.toFixed(2)} <br>
+          GST (18%): $${gstUsd.toFixed(2)} <br>
+          Delivery Charges: $${deliveryUsd.toFixed(2)} <br>
+          <strong>Total Payable: $${totalUsd.toFixed(2)}</strong>
+        `;
+      } else {
+        document.getElementById("price-breakdown").innerHTML = `
+          Subtotal: ₹${subtotalInr.toFixed(2)} <br>
+          GST (18%): ₹${gstInr.toFixed(2)} <br>
+          Delivery Charges: ₹${DELIVERY_CHARGE.toFixed(2)} <br>
+          <strong>Total Payable: ₹${totalInr.toFixed(2)}</strong>
+        `;
+      }
+    }
+
+    // Show/Hide UPI & Card details
+    document.getElementById("payment-method").addEventListener("change", function () {
+      const cardDetails = document.getElementById("card-details");
+      const upiDetails = document.getElementById("upi-details");
+      const qrCode = document.getElementById("qr-code");
+
+      if (this.value === "card") {
+        cardDetails.style.display = "block";
+        upiDetails.style.display = "none";
+        qrCode.style.display = "none";
+      } else if (this.value === "upi") {
+        cardDetails.style.display = "none";
+        upiDetails.style.display = "block";
+        qrCode.style.display = "block";
+      } else {
+        cardDetails.style.display = "none";
+        upiDetails.style.display = "none";
+        qrCode.style.display = "none";
+      }
+    });
+
+    // Simulate payment success
+    document.getElementById("payment-form").addEventListener("submit", function (e) {
+      e.preventDefault();
+      document.getElementById("success-message").style.display = "block";
+    });
+  </script>
+</body>
+
+</html>

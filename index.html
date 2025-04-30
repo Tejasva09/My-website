@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Shubh Electronics - Home</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="script.js" defer></script>
+  <style>
+    /* General Styles */
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f4f4f4;
+    }
+
+    header {
+      background-color: #333;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    nav a {
+      margin: 0 15px;
+      color: white;
+      text-decoration: none;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    main {
+      padding: 20px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 10px;
+      background-color: #333;
+      color: white;
+    }
+
+    /* Hero Section */
+    .hero {
+      text-align: center;
+      padding: 60px 20px;
+      background-color: #fff;
+      margin-bottom: 30px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero h2 {
+      font-size: 36px;
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    .hero p {
+      font-size: 18px;
+      color: #666;
+    }
+
+    /* Product Section */
+    .products {
+      padding: 40px 20px;
+      background-color: #fff;
+      margin-bottom: 30px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .products h2 {
+      text-align: center;
+      color: #333;
+    }
+
+    .product-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 30px;
+      margin-top: 30px;
+    }
+
+    .product-card {
+      text-align: center;
+      max-width: 200px;
+    }
+
+    .product-card img {
+      width: 100%;
+      border-radius: 8px;
+    }
+
+    /* Trending Section */
+    .trending {
+      padding: 40px 20px;
+      background-color: #f9f9f9;
+      margin-bottom: 30px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .trending h2 {
+      text-align: center;
+      color: #333;
+    }
+
+    .trending ul {
+      list-style: none;
+      padding: 0;
+      max-width: 800px;
+      margin: 30px auto;
+      text-align: left;
+    }
+
+    .trending li {
+      padding: 10px 0;
+      border-bottom: 1px solid #ddd;
+      font-size: 16px;
+    }
+
+    /* Additional Features Section */
+    .features {
+      background-color: #fff;
+      padding: 40px 20px;
+      margin-bottom: 30px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .features h2 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    .feature-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      gap: 20px;
+      text-align: center;
+    }
+
+    .feature-box {
+      flex: 1 1 250px;
+      background-color: #eef2f5;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .feature-box h4 {
+      margin-bottom: 10px;
+      color: #2c3e50;
+    }
+
+    .feature-box p {
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>SHUBH ELECTRONICS</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="product.html">Products</a>
+      <a href="contact.html">Contact</a>
+      <a href="cart.html" class="cart-link">🛒 Cart (<span id="cart-count">0</span>)</a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Hero Banner -->
+    <section class="hero">
+      <h2>Welcome to the Best Electronics Store!</h2>
+      <p>Find the latest gadgets and top-rated electronics at unbeatable prices.</p>
+      <!-- Removed the moving LED TV image -->
+    </section>
+
+    <!-- Featured Products Section -->
+    <section class="products">
+      <h2>Trending Products</h2>
+      <div class="product-grid">
+        <div class="product-card">
+          <a href="phone.html">
+            <img src="https://m.media-amazon.com/images/I/41zxe8LzGrL._SX300_SY300_QL70_FMwebp_.jpg" alt="Smartphone" />
+            <h4>Smartphone</h4>
+            <p>Latest Android flagship with unbeatable performance.</p>
+          </a>
+        </div>
+        <div class="product-card">
+          <a href="LED.html">
+            <img src="https://m.media-amazon.com/images/I/41NONMMHxhL._SY300_SX300_QL70_FMwebp_.jpg" alt="Smart TV" />
+            <h4>Smart TV</h4>
+            <p>Ultra HD 4K Smart TV with built-in apps and streaming.</p>
+          </a>
+        </div>
+        <div class="product-card">
+          <a href="laptop.html">
+            <img src="https://m.media-amazon.com/images/I/41TmNlRHHBL._SX300_SY300_QL70_FMwebp_.jpg" alt="Laptop" />
+            <h4>HP OMEN</h4>
+            <p>Lightweight and powerful laptop for work and play.</p>
+          </a>
+        </div>
+        <div class="product-card">
+            <a href="head.html">
+              <img src="https://m.media-amazon.com/images/I/71zfpkr4bYL._SX522_.jpg" alt="Laptop" />
+              <h4>Headphone</h4>
+              <p>Clear audio and loud base headphones</audio>.</p>
+            </a>
+          </div>
+          <div class="product-card">
+            <a href="AC.html">
+              <img src="https://m.media-amazon.com/images/I/51hjt2Tw54L._SX679_.jpg" alt="Laptop" />
+              <h4>Air Conditioner</h4>
+              <p>Best cooling </p>
+            </a>
+          </div>
+      </div>
+    </section>
+
+    <!-- Trending Now Section -->
+    <section class="trending">
+      <h2>Trending Features</h2>
+      <ul>
+        <li>🔋 Power Banks with ultra-fast charging are in demand!</li>
+        <li>🎧 Noise-cancelling headphones for immersive audio.</li>
+        <li>⌚ Smartwatches with health tracking features are popular picks.</li>
+        <li>📷 Home security cameras trending for smart homes.</li>
+      </ul>
+    </section>
+
+    <!-- More Features Section -->
+    <section class="features">
+      <h2>Why Shop With Us?</h2>
+      <div class="feature-grid">
+        <div class="feature-box">
+          <h4>🚚 Free Shipping</h4>
+          <p>Enjoy fast & free delivery across India on all orders.</p>
+        </div>
+        <div class="feature-box">
+          <h4>💳 Secure Payments</h4>
+          <p>100% safe and secure checkout with all major payment options.</p>
+        </div>
+        <div class="feature-box">
+          <h4>🛡️ 1-Year Warranty</h4>
+          <p>All electronics covered with a standard 1-year manufacturer warranty.</p>
+        </div>
+        <div class="feature-box">
+          <h4>📞 24/7 Support</h4>
+          <p>Get round-the-clock customer service for all your queries.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Shubh Electronics</p>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const count = localStorage.getItem('cartCount') || 0;
+      document.getElementById('cart-count').innerText = count;
+    });
+
+    function addToCart(productName, price) {
+      let count = parseInt(localStorage.getItem('cartCount')) || 0;
+      count++;
+      localStorage.setItem('cartCount', count);
+      document.getElementById('cart-count').innerText = count;
+
+      let cart = JSON.parse(localStorage.getItem('cartItems')) || [];
+      cart.push({ name: productName, price: price });
+      localStorage.setItem('cartItems', JSON.stringify(cart));
+
+      alert(`${productName} added to cart!`);
+    }
+  </script>
+</body>
+</html>

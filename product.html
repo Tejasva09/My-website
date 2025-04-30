@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Our Products</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <div class="page-container">
+        <header>
+            <h1>Our Products</h1>
+            <nav>
+                <a href="index.html">Home</a>
+                <a href="products.html">Products</a>
+                <a href="contact.html">Contact</a>
+                <a href="cart.html" class="cart-link">🛒 Cart (<span id="cart-count">0</span>)</a>
+            </nav>
+        </header>
+
+        <main>
+            <section class="products">
+                <div class="product-card">
+                    <img src="https://i.gadgets360cdn.com/large/vivo_y50_1591607532110.jpg?downsize=950:*" alt="Smartphone" />
+                    <a href="phone.html"><h3>Smartphone</h3></a>
+                    <p>Latest 5G smartphone with stunning display.</p>
+                </div>
+                <div class="product-card">
+                    <img src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=500&q=80" alt="Laptop" />
+                    <a href="laptop.html"><h3>Laptop</h3></a>
+                    <p>Powerful performance for work and gaming.</p>
+                </div>
+                <div class="product-card">
+                    <img src="https://www.montblanc.com/variants/images/46353151655575960/A/w747.jpg" alt="Headphones" />
+                    <a href="head.html"><h3>Headphones</h3></a>
+                    <p>Noise-cancelling with amazing sound quality.</p>
+                </div>
+                <div class="product-card">
+                    <img src="https://img.freepik.com/free-psd/air-conditioner-isolated-transparent-background_191095-25517.jpg?t=st=1744458094~exp=1744461694~hmac=89f01d6e56130a8a5b4e9e1d15570dbabf3e06a9cacd5f9c9e269503cf2e425f&w=826" alt="AC" />
+                    <a href="AC.html"><h3>Air Conditioner</h3></a>
+                    <p>Copper coil for best cooling & one year warranty</p>
+                </div>
+                <div class="product-card">
+                    <img src="https://cdn.thewirecutter.com/wp-content/media/2024/08/lcdledtvs-2048px-hisenseu8n-2x1-1.jpg?width=2048&quality=75&crop=2:1&auto=webp" alt="LCD" />
+                    <a href="LED.html"><h3>LED TV</h3></a>
+                    <p>4K picture quality with frameless border and high resolution</p>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 Shubh Electronics</p>
+        </footer>
+    </div>
+
+    <script>
+        // On page load, update cart count
+        document.addEventListener('DOMContentLoaded', () => {
+            const count = localStorage.getItem('cartCount') || 0;
+            document.getElementById('cart-count').innerText = count;
+        });
+
+        function addToCart(productName, price) {
+            let count = parseInt(localStorage.getItem('cartCount')) || 0;
+            count++;
+            localStorage.setItem('cartCount', count);
+            document.getElementById('cart-count').innerText = count;
+
+            let cart = JSON.parse(localStorage.getItem('cartItems')) || [];
+            cart.push({ name: productName, price: price });
+            localStorage.setItem('cartItems', JSON.stringify(cart));
+
+            alert(`${productName} added to cart!`);
+        }
+    </script>
+</body>
+</html>
+

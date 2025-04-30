@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laptop</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Smart LED TV</h1>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="product.html">Products</a>
+            <a href="contact.html">Contact</a>
+            <a href="cart.html" class="cart-link">🛒 Cart (<span id="cart-count">0</span>)</a>
+
+        </nav>
+    </header>
+
+    <main>
+        <section class="product-container" style="display: flex; gap: 20px; flex-wrap: nowrap; overflow-x: auto;">
+
+            <div class="product-card">
+                <img src="https://m.media-amazon.com/images/I/41zWlnRS4xL._SY300_SX300_QL70_FMwebp_.jpg" alt="LED">
+                <h3>Samsung 80 cm (32 inches) HD Ready Smart LED TV</h3>
+                <p>Rating: ★★★★☆</p>
+                <p class="price">$100</p>
+                <button class="cart-btn" onclick="addToCart('Samsung 80 cm (32 inches)', 100)">Add to Cart</button>
+            </div>
+                <div class="product-card" >
+                <img src="https://m.media-amazon.com/images/I/41BqvH8jFUL._SX300_SY300_QL70_FMwebp_.jpg" alt="LED">
+                <h3>Panasonic 108 cm (43 inches) 4K Ultra HD Smart LED</h3>
+                <p>Rating: ★★★★★</p>
+                <p class="price">$200</p>
+                <button class="cart-btn" onclick="addToCart('Panasonic 108 cm (43 inches) 4K Ultra HD Smart LED', 200)">Add to Cart</button>
+            </div>
+            <div class="product-card">
+                <img src="https://m.media-amazon.com/images/I/41NONMMHxhL._SY300_SX300_QL70_FMwebp_.jpg" alt="LED">
+                <h3>ONIDA 139 cm (55 inch) Nexg Series 4K Ultra HD LED</h3>
+                <p>Rating: ★★★★★</p>
+                <p class="price">$189</p>
+                <button class="cart-btn" onclick="addToCart('ONIDA 139 cm (55 inch) Nexg Series 4K Ultra HD LED', 189)">Add to Cart</button>
+            </div>
+            <div class="product-card">
+                <img src="https://m.media-amazon.com/images/I/41Jb0GmVcZL._SX300_SY300_QL70_FMwebp_.jpg">
+                <h3>MI Xiaomi Smart TV A 80 cm (32) HD Ready Smart Google LED TV</h3>
+                <p>Rating: ★★★★☆</p>
+                <p class="price">$205</p>
+                <button class="cart-btn" onclick="addToCart('MI Xiaomi Smart TV A 80 cm (32) HD Ready Smart Google LED TV', 205)">Add to Cart</button>
+            </div>
+            <div class="product-card">
+                <img src="https://m.media-amazon.com/images/I/51m19M40R6L._SY300_SX300_QL70_FMwebp_.jpg" alt="LED">
+                <h3>Acer 80 cm (32 inches) V Pro Series HD Ready Smart QLED Google TV with Android 14 </h3>
+                <p>Rating: ★★★★★</p>
+                <p class="price">$134</p>
+                <button class="cart-btn" onclick="addToCart('Acer 80 cm (32 inches) V Pro Series HD Ready Smart QLED Google TV with Android 14', 134)">Add to Cart</button>
+            </div>
+        </section>
+    </main>
+    <script>
+        // On page load, update cart count
+        document.addEventListener('DOMContentLoaded', () => {
+          const count = localStorage.getItem('cartCount') || 0;
+          document.getElementById('cart-count').innerText = count;
+        });
+      
+        // Add to cart function
+        function addToCart(productName, price) {
+          let count = parseInt(localStorage.getItem('cartCount')) || 0;
+          count++;
+          localStorage.setItem('cartCount', count);
+          document.getElementById('cart-count').innerText = count;
+      
+          let cart = JSON.parse(localStorage.getItem('cartItems')) || [];
+          cart.push({ name: productName, price: price });
+          localStorage.setItem('cartItems', JSON.stringify(cart));
+      
+          alert(`${productName} added to cart!`);
+        }
+      </script>
+</body>
+</html>

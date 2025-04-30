@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smartphone</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Latest Smartphone</h1>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="product.html">Products</a>
+            <a href="contact.html">Contact</a>
+            <a href="cart.html" class="cart-link">🛒 Cart (<span id="cart-count">0</span>)</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="product-container" style="display: flex; gap: 20px; flex-wrap: nowrap; overflow-x: auto;">
+            <div class="product-card">
+                <img src="https://media-ik.croma.com/prod/https://media.croma.com/image/upload/v1705634855/Croma%20Assets/Communication/Mobiles/Images/303820_hxjq29.png?tr=w-640" alt="Samsung Galaxy">
+                <h3>Samsung Galaxy S24 Ultra</h3>
+                <p>Rating: ★★★★☆</p>
+                <p class="price">$1199</p>
+                <button class="cart-btn" onclick="addToCart('Samsung Galaxy S24 Ultra', 1199)">Add to Cart</button>
+            </div>
+            <div class="product-card" style="display: inline-block;">
+                <img src="https://m.media-amazon.com/images/I/41lYkmO1ZEL._SX300_SY300_QL70_FMwebp_.jpg" alt="Oneplus 13">
+                <h3>Oneplus 13</h3>
+                <p>Rating: ★★★☆☆</p>
+                <p class="price">$899</p>
+                <button class="cart-btn" onclick="addToCart('Oneplus 13', 899)">Add to Cart</button>
+            </div>
+            <div class="product-card">
+                <img src="https://www.poojaratele.com/media/catalog/product/cache/28b568fbf82d79c53c9eab7361be58d0/8/1/81g5dlqvq5l._sl1500_.jpg" alt="Oppo F27 pro">
+                <h3>Oppo F27 Pro</h3>
+                <p>Rating: ★★★★★</p>
+                <p class="price">$709</p>
+                <button class="cart-btn" onclick="addToCart('Oppo F27 Pro', 709)">Add to Cart</button>
+            </div>
+            <div class="product-card">
+                <img src="https://www.apple.com/newsroom/images/2024/09/apple-debuts-iphone-16-pro-and-iphone-16-pro-max/article/Apple-iPhone-16-Pro-hero-geo-240909_inline.jpg.large_2x.jpg" alt="Iphone 16 pro">
+                <h3>Iphone 16 pro</h3>
+                <p>Rating: ★★★★☆</p>
+                <p class="price">$1500</p>
+                <button class="cart-btn" onclick="addToCart('Iphone 16 pro', 1500)">Add to Cart</button>
+            </div>
+            <div class="product-card">
+                <img src="https://m.media-amazon.com/images/I/41GLhEDsFhL._SX300_SY300_QL70_FMwebp_.jpg" alt="Nothing 2a">
+                <h3>Nothing 2a</h3>
+                <p>Rating: ★★☆☆☆</p>
+                <p class="price">$250</p>
+                <button class="cart-btn" onclick="addToCart('Nothing 2a', 250)">Add to Cart</button>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // On page load, update cart count
+        document.addEventListener('DOMContentLoaded', () => {
+          const count = localStorage.getItem('cartCount') || 0;
+          document.getElementById('cart-count').innerText = count;
+        });
+      
+        // Add to cart function
+        function addToCart(productName, price) {
+          let count = parseInt(localStorage.getItem('cartCount')) || 0;
+          count++;
+          localStorage.setItem('cartCount', count);
+          document.getElementById('cart-count').innerText = count;
+      
+          let cart = JSON.parse(localStorage.getItem('cartItems')) || [];
+          cart.push({ name: productName, price: price });
+          localStorage.setItem('cartItems', JSON.stringify(cart));
+      
+          alert(`${productName} added to cart!`);  // Corrected the alert syntax
+        }
+    </script>
+</body>
+</html>

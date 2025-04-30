@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laptop</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Loud Base Headphone</h1>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="product.html">Products</a>
+            <a href="contact.html">Contact</a>
+            <a href="cart.html" class="cart-link">🛒 Cart (<span id="cart-count">0</span>)</a>
+
+        </nav>
+    </header>
+
+    <main>
+        <section class="product-container" style="display: flex; gap: 20px; flex-wrap: nowrap; overflow-x: auto;">
+
+            <div class="product-card">
+                <img src="https://m.media-amazon.com/images/I/71zfpkr4bYL._SX522_.jpg" alt="ASUS Vivo Book">
+                <h3>Boult Headphone</h3>
+                <p>Rating: ★★★★☆</p>
+                <p class="price">$119</p>
+                <button class="cart-btn" onclick="addToCart('Boult Headphone', 119)">Add to Cart</button>
+            </div>
+                <div class="product-card" style="display: inline-block;">
+                <img src="https://m.media-amazon.com/images/I/41sHQy2lDBL._SX300_SY300_QL70_FMwebp_.jpg" alt="Headphone">
+                <h3>boAt Rockerz 425</h3>
+                <p>Rating: ★★★★★</p>
+                <p class="price">$109</p>
+                <button class="cart-btn" onclick="addToCart('boAt Rockerz 425', 425)">Add to Cart</button>
+            </div>
+            <div class="product-card">
+                <img src="https://m.media-amazon.com/images/I/41JACWT-wWL._SY355_.jpg" alt="Victus">
+                <h3>Sony WH-CH520</h3>
+                <p>Rating: ★★★★★</p>
+                <p class="price">$100</p>
+                <button class="cart-btn" onclick="addToCart('Sony WH-CH520', 100)">Add to Cart</button>
+            </div>
+            <div class="product-card">
+                <img src="https://m.media-amazon.com/images/I/51AC9X+E+3L._SY355_.jpg">
+                <h3>Noise Buds N1</h3>
+                <p>Rating: ★★★★☆</p>
+                <p class="price">$189</p>
+                <button class="cart-btn" onclick="addToCart('Noise Buds N1', 189)">Add to Cart</button>
+            </div>
+            <div class="product-card">
+                <img src="https://m.media-amazon.com/images/I/61DpOqDGGRL._SY355_.jpg" alt="">
+                <h3>Oneplus Bullets Z2</h3>
+                <p>Rating: ★★★★★</p>
+                <p class="price">$69</p>
+                <button class="cart-btn" onclick="addToCart('Oneplus Bullets Z2', 69)">Add to Cart</button>
+            </div>
+        </section>
+    </main>
+    <script>
+        // On page load, update cart count
+        document.addEventListener('DOMContentLoaded', () => {
+          const count = localStorage.getItem('cartCount') || 0;
+          document.getElementById('cart-count').innerText = count;
+        });
+      
+        // Add to cart function
+        function addToCart(productName, price) {
+          let count = parseInt(localStorage.getItem('cartCount')) || 0;
+          count++;
+          localStorage.setItem('cartCount', count);
+          document.getElementById('cart-count').innerText = count;
+      
+          let cart = JSON.parse(localStorage.getItem('cartItems')) || [];
+          cart.push({ name: productName, price: price });
+          localStorage.setItem('cartItems', JSON.stringify(cart));
+      
+          alert(`${productName} added to cart!`);
+        }
+      </script>
+</body>
+</html>

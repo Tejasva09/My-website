@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Your Cart</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>Your Shopping Cart</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="product.html">Products</a>
+      <a href="contact.html">Contact</a>
+      <a href="cart.html" class="cart-link">🛒 Cart (<span id="cart-count">0</span>)</a>
+    </nav>
+  </header>
+
+  <main class="cart-container">
+    <h2>Items in Cart</h2>
+    <div id="cart-items"></div>
+    <h3 id="total-price">Calculating...</h3>
+    <button onclick="clearCart()" class="clear-btn">Clear Cart</button>
+    <button onclick="buyNow()" class="buy-btn">Buy Now</button>
+    
+    <!-- Currency conversion toggle -->
+    <div class="currency-toggle">
+      <label for="currency-select">Select Currency: </label>
+      <select id="currency-select" onchange="toggleCurrency()">
+        <option value="usd">USD</option>
+        <option value="inr" selected>INR</option>
+      </select>
+    </div>
+  </main>
+
+  <script>
+    const EXCHANGE_RATE = 83; // USD to INR conversion rate
+    const GST_RATE = 0.18; // 18% GST
+    const DELIVERY_CHARGE = 20; // Fixed delivery charge
+
+    // Initial setup when page loads
+    document.addEventListener("DOMContentLoaded", () => {
+      const cart = JSON.parse(localStorage.getItem("cartItems")) || [];
+      const container = document.getElementById("cart-items");
+      const cartCount = localStorage.getItem("cartCount") || 0;
+      document.getElementById("cart-count").innerText = cartCount;
+
+      const currencySelect = document.getElementById("currency-select");
+
+      if (cart.length === 0) {
+        container.innerHTML = "<p>Your cart is empty.</p>";
+        document.getElementById("total-price").innerText = "Total: ₹0";
+        return;
+      }
+
+      let subtotal = 0;
+      cart.forEach((item, index) => {
+        const priceInUsd = item.price; // Price stored in USD
+        const div = document.createElement("div");
+        div.className = "cart-item";
+        div.innerHTML = ` 
+          <strong>${item.name}</strong> - <span class="price">${formatPrice(priceInUsd, currencySelect.value)}</span>
+          <button onclick="removeFromCart(${index})" class="remove-btn">Remove</button>
+        `;
+        container.appendChild(div);
+        subtotal += priceInUsd; // Accumulate subtotal in USD
+      });
+
+      updateTotal(subtotal, currencySelect.value);
+    });
+
+    // Function to toggle between USD and INR
+    function toggleCurrency() {
+      const currencySelect = document.getElementById("currency-select");
+      const currency = currencySelect.value;
+      const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+      const container = document.getElementById("cart-items");
+      const subtotal = cartItems.reduce((total, item) => total + item.price, 0);
+      
+      // Clear current cart display and re-render with new currency
+      container.innerHTML = "";
+      cartItems.forEach((item, index) => {
+        const priceInUsd = item.price; // Price stored in USD
+        const div = document.createElement("div");
+        div.className = "cart-item";
+        div.innerHTML = ` 
+          <strong>${item.name}</strong> - <span class="price">${formatPrice(priceInUsd, currency)}</span>
+          <button onclick="removeFromCart(${index})" class="remove-btn">Remove</button>
+        `;
+        container.appendChild(div);
+      });
+
+      updateTotal(subtotal, currency);
+    }
+
+    // Function to format price based on selected currency
+    function formatPrice(priceInUsd, currency) {
+      if (currency === "usd") {
+        return `$${priceInUsd.toFixed(2)}`; // Display price in USD
+      }
+      return `₹${(priceInUsd * EXCHANGE_RATE).toFixed(2)}`; // Convert price to INR and display
+    }
+
+    // Update total price based on currency
+    function updateTotal(subtotalInUsd, currency) {
+      const gst = subtotalInUsd * GST_RATE;
+      const totalInUsd = subtotalInUsd + gst + DELIVERY_CHARGE;
+
+      if (currency === "usd") {
+        document.getElementById("total-price").innerHTML = `
+          Subtotal: $${subtotalInUsd.toFixed(2)} <br>
+          GST (18%): $${gst.toFixed(2)} <br>
+          Delivery Charges: $${DELIVERY_CHARGE.toFixed(2)} <br>
+          <strong>Total: $${totalInUsd.toFixed(2)}</strong>
+        `;
+      } else {
+        const subtotalInInr = subtotalInUsd * EXCHANGE_RATE;
+        const gstInInr = gst * EXCHANGE_RATE;
+        const totalInInr = totalInUsd * EXCHANGE_RATE;
+
+        document.getElementById("total-price").innerHTML = `
+          Subtotal: ₹${subtotalInInr.toFixed(2)} <br>
+          GST (18%): ₹${gstInInr.toFixed(2)} <br>
+          Delivery Charges: ₹${(DELIVERY_CHARGE * EXCHANGE_RATE).toFixed(2)} <br>
+          <strong>Total: ₹${totalInInr.toFixed(2)}</strong>
+        `;
+      }
+    }
+
+    // Remove item from cart
+    function removeFromCart(index) {
+      let cart = JSON.parse(localStorage.getItem("cartItems")) || [];
+      cart.splice(index, 1);
+      localStorage.setItem("cartItems", JSON.stringify(cart));
+      localStorage.setItem("cartCount", cart.length);
+      document.getElementById("cart-count").innerText = cart.length;
+      location.reload();
+    }
+
+    // Clear cart
+    function clearCart() {
+      localStorage.removeItem("cartItems");
+      localStorage.setItem("cartCount", "0");
+      alert("Cart cleared!");
+      location.reload();
+    }
+
+    // Buy now function
+    function buyNow() {
+      const cart = JSON.parse(localStorage.getItem("cartItems")) || [];
+      if (cart.length === 0) {
+        alert("Your cart is empty. Please add items before buying.");
+        return;
+      }
+
+      const totalAmount = cart.reduce((total, item) => total + item.price, 0);
+      localStorage.setItem("totalAmount", totalAmount);
+      localStorage.setItem("cartItems", JSON.stringify(cart));
+
+      window.location.href = "payment.html";
+    }
+  </script>
+</body>
+</html>
